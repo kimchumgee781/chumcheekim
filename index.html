@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>한글 자음 랜덤 뽑기</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f9f9f9;
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      font-size: 5rem;
+      margin-bottom: 2rem;
+      color: #333;
+    }
+    button {
+      margin: 0.5rem;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      background-color: #4CAF50;
+      color: white;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="result">?</h1>
+  <div>
+    <button onclick="startDraw()">뽑기</button>
+    <button onclick="drawConsonant()">다시하기</button>
+    <button onclick="resetGame()">초기화</button>
+  </div>
+
+  <script>
+    const consonants = [
+      "ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ",
+      "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"
+    ];
+
+    let remaining = [...consonants];
+
+    function startDraw() {
+      let countdown = 3;
+      const resultElement = document.getElementById("result");
+
+      if (remaining.length === 0) {
+        alert("모든 자음을 다 뽑았습니다. 초기화를 해주세요.");
+        return;
+      }
+
+      const countdownInterval = setInterval(() => {
+        resultElement.textContent = countdown;
+        countdown--;
+        if (countdown < 0) {
+          clearInterval(countdownInterval);
+          drawConsonant();
+        }
+      }, 500);
+    }
+
+    function drawConsonant() {
+      if (remaining.length === 0) {
+        alert("모든 자음을 다 뽑았습니다. 초기화를 해주세요.");
+        return;
+      }
+      const index = Math.floor(Math.random() * remaining.length);
+      const chosen = remaining.splice(index, 1)[0];
+      document.getElementById("result").textContent = chosen;
+    }
+
+    function resetGame() {
+      remaining = [...consonants];
+      document.getElementById("result").textContent = "?";
+    }
+  </script>
+</body>
+</html>
